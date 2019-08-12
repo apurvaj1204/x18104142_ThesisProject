@@ -1,11 +1,5 @@
-
+create database thesis;
 use thesis;
-
-
-
-
-
-
 
 create table student_info(
 id INT,
@@ -22,29 +16,19 @@ region nvarchar(50),
 disability nvarchar(50),
 final_result nvarchar(50)	 
 );
-
---drop table student_Info;
-
-select * from studentinfo; --32593
-
-
+select * from studentinfo; --32593 --total students enrolled
 select distinct id_student from student_Info --28785
 select distinct id_student from New_studentinfo
 
 insert into student_info
 SELECT * FROM studentinfo
 WHERE id IN
-(SELECT MIN(id) FROM studentinfo GROUP BY id_student)
+(SELECT MIN(id) FROM studentinfo GROUP BY id_student) --to have unique students
 
 select * from student_info ---28785
-
-
 Select * from student_Info where code_presentation = '2014J'; --11260
-
 Select * from student_Info where code_presentation = '2014B'; --7804
-
 Select * from student_Info where code_presentation = '2013J';	--8845
-
 Select * from student_Info where code_presentation = '2013B'; --4684
 
 select distinct * from student_Info;
@@ -369,12 +353,6 @@ select distinct id_student from FinalStudentTable
 where code_module = 'BBB'
 AND code_presentation = '2013B'
 
-
-
-
-
-
-
 create table StudentTable_CCC2014B(
 code_module nvarchar(50),
 code_presentation nvarchar(50),
@@ -401,9 +379,7 @@ weight nvarchar(50),
 module_presentation_length nvarchar(50)
 )
 
-insert into StudentsCCC
-select * from FinalStudentTable
-where code_module='CCC' AND code_presentation = '2014B' and assessment_type = 'Exam' 
+
 
 
 select distinct sub.id_student from (
@@ -446,6 +422,10 @@ weight nvarchar(50),
 module_presentation_length nvarchar(50)
 )
 
+insert into StudentsCCC
+select * from FinalStudentTable
+where code_module='CCC' AND code_presentation = '2014B' and assessment_type = 'Exam' 
+
 insert into StudentsTMA
 select * from FinalStudentTable where assessment_type = 'TMA' 
 
@@ -453,3 +433,48 @@ select * from FinalStudentTable where assessment_type = 'TMA'
 select * from StudentsTMA --98426
 
 select * from FinalStudentTable
+
+select distinct sub.id_student from (
+select * from FinalStudentTable where code_module='CCC' AND code_presentation = '2014B' and assessment_type = 'Exam' 
+) sub
+
+create table StudentBBB(
+code_module nvarchar(50),
+code_presentation nvarchar(50),
+id_student nvarchar(50),
+gender nvarchar(50),
+region nvarchar(50),
+highest_education nvarchar(50),
+imd_band nvarchar(50),
+age_band nvarchar(50),
+num_of_prev_attempts nvarchar(50),
+studied_credits nvarchar(50),
+disability nvarchar(50),
+final_result nvarchar(50),
+date_registration INT,
+date_unregistration INT,
+sum_click INT,
+id_assessment nvarchar(50),
+date_submitted nvarchar(50),
+is_banked nvarchar(50),
+score nvarchar(50),
+assessment_type nvarchar(50),
+date nvarchar(50),
+weight nvarchar(50),
+module_presentation_length nvarchar(50)
+)
+
+insert into StudentBBB
+select * from FinalStudentTable				--11763 --distinct id_student
+where --code_module = 'EEE' --AND
+-- code_presentation = '2014J'AND
+  assessment_type = 'CMA' 
+
+select * from StudentBBB --6502
+select * from FinalStudentTable
+
+select  distinct id_student from FinalStudentTable
+
+select distinct id_student from StudentBBB
+
+truncate table StudentBBB

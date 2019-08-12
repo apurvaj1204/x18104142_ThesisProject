@@ -29,14 +29,10 @@ library(plyr)
 library(dplyr)
 library(stringr)
 library(ggplot2)
-#install.packages("stringi")
 library(stringi)
 getwd()
-setwd("/Users/madhavlavania/Desktop/FinalProject/")
-#students_data <- data.frame(read.csv("StudentsCCC.csv", header=T, na.strings=c("","NA")))
-students_data <- data.frame(read.csv("Student_TMA.csv", header=T, na.strings=c("","NA")))
-
-#View(students_data)
+setwd("/Users/apurvajain/Desktop/FinalProject/")
+students_data <- data.frame(read.csv("20k_thesis.csv", header=T, na.strings=c("","NA")))
 str(students_data)
 students_data <- students_data[,-c(1,2,5,14,16,18,21)] #removing theunwanted columns
 na_count <-sapply(students_data, function(y) sum(length(which(is.na(y))))) #finding the total number of NAs in each column
@@ -46,9 +42,8 @@ students_data <- na.omit(students_data) #removing NAs where the student qualific
 na_count <-sapply(students_data, function(y) sum(length(which(is.na(y))))) #finding the total number of NAs in each column
 na_count <- data.frame(na_count)
 na_count #gives the number of NAs
-students_data$imd_band <- gsub("%", "", students_data$imd_band)
-View(students_data)
-students_data <- students_data[,c(1:8,10:16,9)]
+students_data$imd_band <- gsub("%", "", students_data$imd_band) #removing special characters
+students_data <- students_data[,c(1:8,10:16,9)] #removing unwanted data
 summary(students_data)
 table(students_data$gender)
 table(students_data$disability)
@@ -67,10 +62,11 @@ students_data$imd_band<- as.factor(students_data$imd_band)
 str(students_data$imd_band)
 table(students_data$imd_band)
 students_data$imd_band<- factor(students_data$imd_band, levels = c ("0-10", "10-20", "20-30", "30-40", "40-50",
-                                                                    "50-60", "60-70", "70-80","80-90", "90-100"), labels = c(0, 0, 0, 1, 1, 1, 1, 2, 2, 2))
+                                                                    "50-60", "60-70", "70-80","80-90", "90-100"),
+                                                                      labels = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
 students_data <- students_data[,-13]
-students_data$highest_education<- factor(students_data$highest_education, levels = c ("A Level or Equivalent", "Lower Than A Level", "HE Qualification", "Post Graduate Qualification", "No Formal quals"), labels = c(0, 1, 2, 3, 4))
+students_data$highest_education<- factor(students_data$highest_education, levels = c ("A Level or Equivalent", "Lower Than A Level",
+                                        "HE Qualification", "Post Graduate Qualification", "No Formal quals"), labels = c(0, 1, 2, 3, 4))
 str(students_data$highest_education)
-#write.csv(students_data, file= "/Users/madhavlavania/Desktop/FinalProject/cleanedData.csv", col.names = TRUE)
-write.csv(students_data, file= "/Users/madhavlavania/Desktop/FinalProject/cleanedData1.csv", col.names = TRUE, row.names = FALSE)
+write.csv(students_data, file= "/Users/madhavlavania/Desktop/FinalProject/cleanedData20k_1.csv", col.names = TRUE, row.names = FALSE)
 
